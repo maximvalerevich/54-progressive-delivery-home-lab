@@ -35,13 +35,16 @@ jobs:
             'rollouts/analysis-template.yaml',
             'rollouts/rollout.yaml'
           ]
+          failed = False
           for f in files:
             try:
-              yaml.safe_load(open(f))
-              print(f'✓ {f} is valid YAML')
+              docs = list(yaml.safe_load_all(open(f)))
+              assert len(docs) > 0, 'no YAML documents found'
+              print(f'✓ {f} is valid YAML ({len(docs)} document(s))')
             except Exception as e:
               print(f'✗ {f}: {e}')
-              sys.exit(1)
+              failed = True
+          sys.exit(1 if failed else 0)
           "
 
       - name: Validate shell scripts
