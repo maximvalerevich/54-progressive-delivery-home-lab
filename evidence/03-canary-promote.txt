@@ -1,0 +1,30 @@
+=== Triggering Canary Promote: blue -> green ===
+rollout.argoproj.io/demo-rollout patched
+Poll 1: rollout_phase=Progressing updated=1 ready=3 analysisrun=None
+Poll 2: rollout_phase=Progressing updated=1 ready=3 analysisrun=None
+Poll 3: rollout_phase=Paused updated=1 ready=4 analysisrun=None
+Poll 4: rollout_phase=Progressing updated=1 ready=4 analysisrun=Running
+Poll 5: rollout_phase=Progressing updated=1 ready=4 analysisrun=Running
+Poll 6: rollout_phase=Progressing updated=2 ready=3 analysisrun=Successful
+Poll 7: rollout_phase=Paused updated=2 ready=3 analysisrun=Successful
+Poll 8: rollout_phase=Progressing updated=4 ready=4 analysisrun=Successful
+Poll 9: rollout_phase=Healthy updated=4 ready=4 analysisrun=Successful
+
+=== Final Rollout, AnalysisRun, ReplicaSets, Pods ===
+NAME                               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+rollout.argoproj.io/demo-rollout   4         4         4            4           83s
+
+NAME                                                  STATUS       AGE
+analysisrun.argoproj.io/demo-rollout-6d7dcf4597-2-2   Successful   31s
+
+NAME                                      DESIRED   CURRENT   READY   AGE   CONTAINERS      IMAGES                         SELECTOR
+replicaset.apps/demo-rollout-6b584fbc68   0         0         0       79s   rollouts-demo   argoproj/rollouts-demo:blue    app=demo,rollouts-pod-template-hash=6b584fbc68
+replicaset.apps/demo-rollout-6d7dcf4597   4         4         4       47s   rollouts-demo   argoproj/rollouts-demo:green   app=demo,rollouts-pod-template-hash=6d7dcf4597
+
+NAME                                                           READY   STATUS        RESTARTS   AGE   IP            NODE                     NOMINATED NODE   READINESS GATES
+pod/0aec1691-f41d-4538-9940-07d48d587006.smoke-check.1-5lrx5   0/1     Completed     0          31s   10.244.1.8    progressive-lab-worker   <none>           <none>
+pod/demo-rollout-6b584fbc68-2bm7d                              1/1     Terminating   0          79s   10.244.1.4    progressive-lab-worker   <none>           <none>
+pod/demo-rollout-6d7dcf4597-2qz7t                              1/1     Running       0          12s   10.244.1.10   progressive-lab-worker   <none>           <none>
+pod/demo-rollout-6d7dcf4597-4mjsr                              1/1     Running       0          47s   10.244.1.7    progressive-lab-worker   <none>           <none>
+pod/demo-rollout-6d7dcf4597-jdwkz                              1/1     Running       0          12s   10.244.1.11   progressive-lab-worker   <none>           <none>
+pod/demo-rollout-6d7dcf4597-rksk6                              1/1     Running       0          22s   10.244.1.9    progressive-lab-worker   <none>           <none>

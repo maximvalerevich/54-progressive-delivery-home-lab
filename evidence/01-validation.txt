@@ -1,0 +1,26 @@
+=== Validation Script for Progressive Delivery Home Lab ===
+
+[*] Checking required files...
+  ✓ kind-config.yaml exists
+  ✓ rollouts/namespace.yaml exists
+  ✓ rollouts/services.yaml exists
+  ✓ rollouts/analysis-template.yaml exists
+  ✓ rollouts/rollout.yaml exists
+  ✓ Makefile exists
+  ✓ scripts/validate.sh exists
+  ✓ scripts/bootstrap.sh exists
+  ✓ scripts/cleanup.sh exists
+
+[*] Validating YAML syntax...
+  ✓ rollouts/analysis-template.yaml is valid YAML
+  ✓ rollouts/namespace.yaml is valid YAML
+  ✓ rollouts/rollout.yaml is valid YAML
+  ✓ rollouts/services.yaml is valid YAML
+  ✓ kind-config.yaml is valid YAML
+
+[*] Validating shell scripts...
+  ✓ scripts/bootstrap.sh is valid bash
+  ✓ scripts/cleanup.sh is valid bash
+  ✓ scripts/validate.sh is valid bash
+
+=== All validations passed! ===

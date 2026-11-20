@@ -1,0 +1,28 @@
+=== kind get clusters ===
+progressive-lab
+
+=== kubectl get nodes ===
+NAME                            STATUS   ROLES           AGE   VERSION
+progressive-lab-control-plane   Ready    control-plane   16m   v1.37.0
+progressive-lab-worker          Ready    <none>          16m   v1.37.0
+
+=== kubectl -n argo-rollouts get pods ===
+NAME                           READY   STATUS    RESTARTS   AGE
+argo-rollouts-88797f77-4w6sr   1/1     Running   0          16m
+
+=== kubectl -n progressive-delivery get rollout,svc,analysistemplate,pods ===
+NAME                               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+rollout.argoproj.io/demo-rollout   4         4         4            4           23s
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/demo-canary   ClusterIP   10.96.34.181    <none>        80/TCP    15m
+service/demo-stable   ClusterIP   10.96.185.110   <none>        80/TCP    15m
+
+NAME                                              AGE
+analysistemplate.argoproj.io/canary-smoke-check   23s
+
+NAME                                READY   STATUS    RESTARTS   AGE
+pod/demo-rollout-6b584fbc68-2bm7d   1/1     Running   0          19s
+pod/demo-rollout-6b584fbc68-db2k6   1/1     Running   0          19s
+pod/demo-rollout-6b584fbc68-k58pn   1/1     Running   0          19s
+pod/demo-rollout-6b584fbc68-swbf9   1/1     Running   0          19s

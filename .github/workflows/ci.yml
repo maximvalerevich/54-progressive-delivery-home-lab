@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Run yamllint
+        run: |
+          yamllint -c .yamllint .
+      - name: Check YAML files
+        run: |
+          python -c "
+          import yaml
+          import sys
+          files = [
+            'kind-config.yaml',
+            'rollouts/namespace.yaml',
+            'rollouts/services.yaml',
+            'rollouts/analysis-template.yaml',
+            'rollouts/rollout.yaml'
+          ]
+          for f in files:
+            try:
+              yaml.safe_load(open(f))
+              print(f'✓ {f} is valid YAML')
+            except Exception as e:
+              print(f'✗ {f}: {e}')
+              sys.exit(1)
+          "
+
+      - name: Validate shell scripts
+        run: |
+          bash -n scripts/*.sh

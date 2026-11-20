@@ -1,0 +1,8 @@
+.kube/config
+kubeconfig
+*.kubeconfig
+.env
+*.env
+*.log
+tmp/
+*.tmp

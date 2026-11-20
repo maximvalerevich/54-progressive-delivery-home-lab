@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: canary-smoke-check
+  namespace: progressive-delivery
+spec:
+  args:
+    - name: service-name
+      value: demo-canary.progressive-delivery.svc.cluster.local
+  metrics:
+    - name: smoke-check
+      provider:
+        job:
+          spec:
+            backoffLimit: 0
+            template:
+              spec:
+                restartPolicy: Never
+                containers:
+                  - name: smoke-check
+                    image: busybox:1.36
+                    command: ["sh", "-c"]
+                    args:
+                      - wget -qO- --timeout=5 http://{{args.service-name}}/ > /dev/null
